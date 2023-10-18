@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Онлайн магазин</title>
+  <script src="script.js"></script>
+</head>
+<body>
+    <h1>Ласкаво просимо в онлайн магазин</h1>
+    <h2>Товари</h2>
+    <div id="products">
+      <ul>
+        <% products.forEach(product => { %>
+          <li>
+            <span><%= product.name %></span>
+            <span><%= product.price %></span>
+            <button onclick="addToCart(<%= product.id %>)">Додати до корзини</button>
+          </li>
+        <% }); %>
+      </ul>
+    </div>
+    <h2>Корзина</h2>
+    <div id="cart">
+      <ul>
+        <% cart.forEach(item => { %>
+          <li>
+            <span><%= item.name %></span>
+            <span><%= item.price %></span>
+            <button onclick="removeFromCart(<%= item.id %>)">Видалити з корзини</button>
+          </li>
+        <% }); %>
+      </ul>
+    </div>
+</body>
+</html>

@@ -1,7 +1,6 @@
 const productsDiv = document.getElementById('products');
 const cartDiv = document.getElementById('cart');
 
-// Функція для відображення товарів
 function renderProducts() {
   fetch('/api/products', {
     method: 'GET',
@@ -26,7 +25,6 @@ function renderProducts() {
     .catch((error) => console.error('Помилка:', error));
 }
 
-// Функція для відображення корзини
 function renderCart() {
   fetch('/api/cart', {
     method: 'GET',
@@ -51,8 +49,8 @@ function renderCart() {
     .catch((error) => console.error('Помилка:', error));
 }
 
-// Функція для додавання товару до корзини
 function addToCart(productId) {
+  console.log(`Спроба додати товар до корзини з ID ${productId}`);
   fetch('/api/cart/add', {
     method: 'POST',
     headers: {
@@ -62,6 +60,7 @@ function addToCart(productId) {
   })
     .then((response) => response.json())
     .then((data) => {
+      console.log('Відповідь від сервера:', data);
       if (data.message === 'Товар додано до корзини.') {
         console.log(data.message);
         renderCart();
@@ -72,8 +71,6 @@ function addToCart(productId) {
     .catch((error) => console.error('Помилка:', error));
 }
 
-
-// Функція для видалення товару з корзини
 function removeFromCart(productId) {
   fetch('/api/cart/remove', {
     method: 'POST',
@@ -96,3 +93,14 @@ function removeFromCart(productId) {
 
 renderProducts();
 renderCart();
+
+function validateAndConvertParams(req, res, next) {
+  if (req.params.id) {
+    req.params.id = parseInt(req.params.id);
+  }
+  if (req.query.price) {
+    req.query.price = parseFloat(req.query.price);
+  }
+
+  next();
+}
